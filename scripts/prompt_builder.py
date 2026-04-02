@@ -5,8 +5,10 @@ Assembles image-to-image prompts from skill configuration.
 
 CRITICAL DESIGN RULE:
     This module NEVER describes the mascot's base appearance (no "white puppy",
-    "dog", "fluffy fur", etc.). The reference image (ip-reference.png) carries
-    all character appearance information. Prompts here only describe:
+    "dog", "fluffy fur", "pink tuft", "ear", etc.). The reference image
+    (ip-reference.png) carries all character appearance information, including
+    the distinctive pink curly tuft on the right side of the head (a signature
+    asymmetric feature). Prompts here only describe:
         1. Expression / emotional state
         2. Outfit / clothing / held accessories
         3. Background / environment / atmosphere
@@ -26,10 +28,13 @@ _TEMPLATE_PATH = _ROOT / "assets" / "prompt-template.txt"
 # ── Fixed style suffix appended to every prompt ──────────────────────────────
 
 _STYLE_SUFFIX = (
-    "3D cartoon style, Pixar quality rendering, soft volumetric lighting, "
-    "smooth subsurface scattering on character, vibrant saturated colors, "
-    "high detail, professional illustration, "
-    "clean composition with character centered"
+    "CRITICAL: Character appearance must EXACTLY match the reference image. "
+    "Preserve the distinctive pink curly tuft on the right side of head (not a normal ear). "
+    "Only modify: expression, outfit, and background scene. "
+    "Do NOT change the character's base appearance, facial features, or body structure. "
+    "3D cartoon style, Pixar quality rendering, "
+    "vibrant saturated colors, soft lighting, high detail, "
+    "professional illustration, clean composition"
 )
 
 _NEGATIVE_PROMPT = (

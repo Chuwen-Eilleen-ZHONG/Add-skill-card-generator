@@ -133,6 +133,26 @@ _validate_image_aspect_ratio(image_bytes)  # raises ValueError if not square
 
 ---
 
+## Preserving IP Character Features
+
+The reference image (`ip-reference.png`) contains critical brand features:
+- **Pink curly tuft on RIGHT side of head** (replaces normal ear — asymmetric design)
+- Normal ear on LEFT side
+- Overall character design and proportions
+
+**Important:** The prompt should NEVER describe these base features.
+Only describe what changes: expression, clothing, accessories, background.
+
+Example:
+```
+WRONG: "white fluffy dog with pink tuft, excited expression..."
+RIGHT: "excited expression, wearing explorer vest, in front of mountain..."
+```
+
+The image-to-image API will preserve the character from the reference automatically.
+
+---
+
 ## Error Codes
 
 | HTTP Status | Meaning | Action |
