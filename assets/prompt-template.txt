@@ -1,0 +1,36 @@
+# Skill Card Prompt Template
+#
+# USAGE: This template defines the structure for image-to-image prompts.
+# Variables in {curly_braces} are replaced by prompt_builder.py.
+#
+# CRITICAL RULE: Do NOT add any description of the mascot's base appearance.
+# The reference image (ip-reference.png) defines what the character looks like.
+# This prompt only describes CHANGES layered on top of the reference.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── EXPRESSION BLOCK ─────────────────────────────────────────────────────────
+# Describes the character's current emotional state and facial accessories only.
+# Source field: skill-config.json → expression
+{expression},
+
+# ── OUTFIT BLOCK ─────────────────────────────────────────────────────────────
+# Describes clothing, wearable accessories, and held props only.
+# Source field: skill-config.json → outfit
+{outfit},
+
+# ── BACKGROUND BLOCK ─────────────────────────────────────────────────────────
+# Describes the scene, environment, lighting, and atmosphere.
+# Source field: skill-config.json → background
+{background},
+
+# ── STYLE DIRECTIVES (fixed for all cards) ───────────────────────────────────
+3D cartoon style, Pixar quality rendering, soft volumetric lighting,
+smooth subsurface scattering on character, vibrant saturated colors,
+high detail, square card format 1:1 aspect ratio, professional illustration,
+clean composition with character centered slightly lower third
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NEGATIVE PROMPT (passed as negative_prompt parameter to API)
+# ─────────────────────────────────────────────────────────────────────────────
+# NEGATIVE: realistic photo, human character, dark depressing mood,
+# blurry, low quality, watermark, text overlay, letterbox, stretched

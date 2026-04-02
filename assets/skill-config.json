@@ -1,0 +1,112 @@
+{
+  "skills": [
+    {
+      "skill_id": "data_analysis",
+      "name_cn": "数据分析",
+      "name_en": "Data Analysis",
+      "expression": "focused and analytical, wearing smart glasses",
+      "outfit": "wearing a white lab coat, holding a tablet showing graphs and charts",
+      "background": "surrounded by floating holographic data charts, dashboards and graphs, modern tech office environment with blue ambient lighting",
+      "mood": ["professional", "intelligent", "tech-savvy"]
+    },
+    {
+      "skill_id": "travel_planning",
+      "name_cn": "旅游规划",
+      "name_en": "Travel Planning",
+      "expression": "excited and cheerful, eyes sparkling with wanderlust",
+      "outfit": "wearing an explorer vest and safari hat, holding a vintage unfolded map",
+      "background": "standing in front of Eiffel Tower at golden hour, warm Parisian romantic atmosphere with soft bokeh lights",
+      "mood": ["adventurous", "joyful", "wanderlust"]
+    },
+    {
+      "skill_id": "creative_writing",
+      "name_cn": "创意写作",
+      "name_en": "Creative Writing",
+      "expression": "thoughtful and inspired, head tilted slightly with a dreamy gaze",
+      "outfit": "wearing a cozy knit sweater, holding a quill pen with an open parchment scroll",
+      "background": "cozy library with towering bookshelves, floating magical books and golden sparkles, warm candlelight atmosphere",
+      "mood": ["creative", "artistic", "imaginative"]
+    },
+    {
+      "skill_id": "coding",
+      "name_cn": "编程开发",
+      "name_en": "Coding",
+      "expression": "intensely focused, slightly squinting with concentration",
+      "outfit": "wearing a dark hoodie with a small code logo patch, holding a laptop",
+      "background": "dark room illuminated by multiple monitor screens showing code, matrix-style green code streams in background",
+      "mood": ["focused", "technical", "innovative"]
+    },
+    {
+      "skill_id": "graphic_design",
+      "name_cn": "图形设计",
+      "name_en": "Graphic Design",
+      "expression": "creative and expressive, with a proud confident smile",
+      "outfit": "wearing a beret and a paint-splattered apron, holding a stylus pen and color palette",
+      "background": "bright modern design studio with mood boards, color swatches, and floating geometric shapes in pastel tones",
+      "mood": ["creative", "stylish", "expressive"]
+    },
+    {
+      "skill_id": "marketing",
+      "name_cn": "营销策划",
+      "name_en": "Marketing",
+      "expression": "energetic and persuasive, with a big enthusiastic grin",
+      "outfit": "wearing a sharp blazer with a megaphone pin, holding a presentation pointer",
+      "background": "dynamic cityscape with glowing neon brand billboards, social media icons floating around, upbeat atmosphere",
+      "mood": ["energetic", "persuasive", "strategic"]
+    },
+    {
+      "skill_id": "fitness_coaching",
+      "name_cn": "健身指导",
+      "name_en": "Fitness Coaching",
+      "expression": "motivated and powerful, with a determined winning expression",
+      "outfit": "wearing athletic sportswear and a sweatband, holding small dumbbells",
+      "background": "modern gym with equipment in background, rays of sunlight streaming through windows, energetic motivational atmosphere",
+      "mood": ["energetic", "strong", "motivating"]
+    },
+    {
+      "skill_id": "cooking",
+      "name_cn": "美食烹饪",
+      "name_en": "Cooking",
+      "expression": "delighted and satisfied, sniffing something delicious with closed happy eyes",
+      "outfit": "wearing a chef hat and white chef apron, holding a wooden spoon",
+      "background": "warm cozy kitchen with steaming pots, hanging herbs, rustic shelves of spices, golden warm lighting",
+      "mood": ["warm", "joyful", "nurturing"]
+    },
+    {
+      "skill_id": "music_production",
+      "name_cn": "音乐制作",
+      "name_en": "Music Production",
+      "expression": "immersed in music, eyes closed with a blissful swaying expression",
+      "outfit": "wearing wireless headphones around the neck and a retro band tee, holding a small electric guitar pick",
+      "background": "recording studio with equalizer lights, floating musical notes and sound waves, purple and neon pink mood lighting",
+      "mood": ["passionate", "rhythmic", "cool"]
+    },
+    {
+      "skill_id": "language_learning",
+      "name_cn": "语言学习",
+      "name_en": "Language Learning",
+      "expression": "curious and eager, with wide bright eyes and an open mouth about to speak",
+      "outfit": "wearing a school uniform scarf with national flag pins, holding a phrasebook",
+      "background": "surrounded by floating speech bubbles in different languages, world map backdrop, cheerful classroom atmosphere",
+      "mood": ["curious", "enthusiastic", "global"]
+    },
+    {
+      "skill_id": "finance_planning",
+      "name_cn": "财务规划",
+      "name_en": "Finance Planning",
+      "expression": "calm and trustworthy, with a composed professional smile",
+      "outfit": "wearing a neat suit and tie, holding a small golden coin and a calculator",
+      "background": "elegant office with rising bar graphs on glass windows, stacks of coins and currency symbols floating gently, soft gold lighting",
+      "mood": ["trustworthy", "calm", "professional"]
+    },
+    {
+      "skill_id": "photography",
+      "name_cn": "摄影创作",
+      "name_en": "Photography",
+      "expression": "artistically focused, one eye squinting through a viewfinder with concentration",
+      "outfit": "wearing a photography vest with pockets, holding a DSLR camera up to one eye",
+      "background": "scenic outdoor location at magic hour — rolling hills with warm sunset, golden light rays, cinematic atmosphere",
+      "mood": ["artistic", "observant", "aesthetic"]
+    }
+  ]
+}
