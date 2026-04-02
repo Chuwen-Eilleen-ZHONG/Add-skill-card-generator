@@ -33,7 +33,7 @@ You are the **Skill Card Generator Expert** — a specialized agent responsible 
 1. **Never describe the mascot's base appearance in prompts.** The white puppy's shape, fur, face, and body come entirely from `assets/ip-reference.png`. Text prompts only describe what *changes*.
 2. **Only three things change per card:** expression/emotion, outfit/accessories, and background/environment.
 3. **Reference image is mandatory.** Every API call must include `ip-reference.png` as the input image. Generating without it will produce inconsistent results.
-4. **Two generation modes available:** predefined skills (from `skill-config.json`) or free-form custom scenes (any natural language description).
+4. **Custom scene generation only.** Describe any scene in natural language — English, Chinese, or mixed.
 5. **Return the output file path** so the calling Agent can use or display the image immediately.
 
 ---
@@ -42,26 +42,20 @@ You are the **Skill Card Generator Expert** — a specialized agent responsible 
 
 When asked to generate a skill card, follow these steps in order:
 
-### Step 1 — Resolve skill configuration
-```python
-from scripts.generate_card import generate_skill_card
-```
-Look up `skill_id` in `assets/skill-config.json` to retrieve expression, outfit, and background.
-
-### Step 2 — Build the prompt
+### Step 1 — Build the prompt
 Use `scripts/prompt_builder.py` to assemble the prompt. The prompt structure is:
 ```
 [expression change] + [outfit and accessories] + [background and environment]
 ```
 Do **NOT** include phrases like "white puppy", "dog", "fluffy", or any description of the mascot's physical appearance.
 
-### Step 3 — Call Doubao API
+### Step 2 — Call Doubao API
 Submit a multipart request containing:
 - `image`: the binary content of `assets/ip-reference.png`
 - `prompt`: the assembled text prompt
 - `model`: value of `DOUBAO_MODEL` env var
 
-### Step 4 — Save and return
+### Step 3 — Save and return
 Save the returned image to `output_path` (or auto-generate a timestamped filename) and return the absolute file path.
 
 ---
@@ -80,111 +74,7 @@ Set these before running. The skill will raise `EnvironmentError` with a clear m
 
 ## Function Interface (for Agent callers)
 
-### Mode 1 — Predefined skill card
-
-```python
-from scripts.generate_card import generate_skill_card, list_available_skills
-
-# Generate a single card by skill ID
-image_path = generate_skill_card("data_analysis")
-
-# With explicit output path
-image_path = generate_skill_card(
-    skill_id="travel_planning",
-    output_path="/output/cards/travel.png"
-)
-
-# List all valid skill IDs
-skills = list_available_skills()
-# Returns: ['coding', 'cooking', 'data_analysis', 'finance_planning', ...]
-
-# Batch generate all cards
-for skill_id in list_available_skills():
-    path = generate_skill_card(skill_id)
-    print(f"{skill_id} -> {path}")
-```
-
-### Mode 4 — Multiple variations of the same scene
-
-Use when you want **several different takes on one scene** to pick the best composition. The API naturally produces different results each time — pose, lighting, framing — even with identical prompts.
-
-> **Cost note:** Each variation ≈ ¥0.22. Plan accordingly:
-> 3 variations ≈ ¥0.66 | 5 variations ≈ ¥1.10 | 10 variations ≈ ¥2.20
-
-```python
-from scripts.generate_card import generate_custom_card_variations
-
-# 5 different versions of the same scene
-paths = generate_custom_card_variations(
-    "buying tickets at theme park entrance, excited expression",
-    num_variations=5
-)
-# Returns ordered list v1 → v5:
-# ["…/custom_buying_tickets_at_v1_20260402_….png",
-#  "…/custom_buying_tickets_at_v2_20260402_….png", ...]
-
-# Chinese scene, 3 versions
-paths = generate_custom_card_variations("在咖啡厅工作", num_variations=3)
-
-# 10 options for art direction review
-paths = generate_custom_card_variations(
-    scene_description="cooking pasta in kitchen, happy and focused",
-    num_variations=10,
-    output_dir="/output/review/cooking/"
-)
-```
-
-**When to use variations vs batch:**
-
-| Scenario | Use |
-|----------|-----|
-| One scene, want multiple options to choose from | `generate_custom_card_variations()` |
-| Multiple different scenes, one card each | `generate_custom_cards_batch()` |
-| Single scene, one card | `generate_custom_card()` |
-
----
-
-### Mode 3 — Batch custom scenes
-
-Use when generating **multiple cards in one call**. Each description in the list produces one card. The batch continues even if individual generations fail.
-
-```python
-from scripts.generate_card import generate_custom_cards_batch
-
-# Basic batch
-scenes = [
-    "买门票场景，开心的表情",
-    "在咖啡厅工作，专注的样子",
-    "海边冲浪，兴奋激动",
-]
-paths = generate_custom_cards_batch(scenes)
-# Returns: ["/output/cards/custom_..._001.png", "/output/cards/custom_..._002.png", ...]
-# Order matches input list. Failed items are excluded (logged as errors).
-
-# With custom output directory
-paths = generate_custom_cards_batch(scenes, output_dir="/my/campaign/cards/")
-
-# Large batch — no limit on count
-paths = generate_custom_cards_batch([
-    "scene 1 description",
-    "scene 2 description",
-    "scene 3 description",
-    "scene 4 description",
-    "scene 5 description",
-])
-```
-
-**When to use batch vs single:**
-- Single card → `generate_custom_card()`
-- 2+ cards → `generate_custom_cards_batch()` — handles progress logging, error recovery, and rate-limit delays automatically
-
----
-
-### Mode 2 — Free-form custom scene
-
-Use this when no predefined skill matches, or when the Agent needs to generate
-a unique scene not in `skill-config.json`. Accepts **any** natural language
-description in English, Chinese, or mixed.
+### Mode 1 — Single custom scene
 
 ```python
 from scripts.generate_card import generate_custom_card
@@ -215,10 +105,73 @@ path = generate_custom_card(
 
 ---
 
+### Mode 2 — Multiple variations of the same scene
+
+Use when you want **several different takes on one scene** to pick the best composition. The API naturally produces different results each time — pose, lighting, framing — even with identical prompts.
+
+> **Cost note:** Each variation ≈ ¥0.22. Plan accordingly:
+> 3 variations ≈ ¥0.66 | 5 variations ≈ ¥1.10 | 10 variations ≈ ¥2.20
+
+```python
+from scripts.generate_card import generate_custom_card_variations
+
+# 5 different versions of the same scene
+paths = generate_custom_card_variations(
+    "buying tickets at theme park entrance, excited expression",
+    num_variations=5
+)
+# Returns ordered list v1 → v5:
+# ["…/custom_buying_tickets_at_v1_20260402_….png",
+#  "…/custom_buying_tickets_at_v2_20260402_….png", ...]
+
+# Chinese scene, 3 versions
+paths = generate_custom_card_variations("在咖啡厅工作", num_variations=3)
+
+# 10 options for art direction review
+paths = generate_custom_card_variations(
+    scene_description="cooking pasta in kitchen, happy and focused",
+    num_variations=10,
+    output_dir="/output/review/cooking/"
+)
+```
+
+---
+
+### Mode 3 — Batch custom scenes
+
+Use when generating **multiple cards in one call**. Each description in the list produces one card. The batch continues even if individual generations fail.
+
+```python
+from scripts.generate_card import generate_custom_cards_batch
+
+# Basic batch
+scenes = [
+    "买门票场景，开心的表情",
+    "在咖啡厅工作，专注的样子",
+    "海边冲浪，兴奋激动",
+]
+paths = generate_custom_cards_batch(scenes)
+# Returns: ["/output/cards/custom_..._001.png", "/output/cards/custom_..._002.png", ...]
+# Order matches input list. Failed items are excluded (logged as errors).
+
+# With custom output directory
+paths = generate_custom_cards_batch(scenes, output_dir="/my/campaign/cards/")
+```
+
+**When to use which mode:**
+
+| Scenario | Use |
+|----------|-----|
+| One scene, want multiple options to choose from | `generate_custom_card_variations()` |
+| Multiple different scenes, one card each | `generate_custom_cards_batch()` |
+| Single scene, one card | `generate_custom_card()` |
+
+---
+
 ## Output Format
 
 - Format: PNG
-- Filename (auto): `{skill_id}_{YYYYMMDD}_{HHMMSS}.png`
+- Filename (auto): `custom_{scene_slug}_{YYYYMMDD}_{HHMMSS}.png`
 - Default output directory: `./output/cards/` (created automatically if missing)
 - Returns: absolute path string
 
@@ -227,11 +180,7 @@ path = generate_custom_card(
 ## CLI Usage
 
 ```bash
-# Predefined skill
-python scripts/generate_card.py data_analysis
-python scripts/generate_card.py travel_planning /output/travel.png
-
-# Free-form single scene
+# Single custom scene
 python scripts/generate_card.py --custom "buying tickets at amusement park"
 python scripts/generate_card.py --custom "门票预订，小狗开心拿着门票" /output/tickets.png
 
@@ -253,34 +202,10 @@ python scripts/generate_card.py --custom-batch \
 
 | Exception | Cause | Action |
 |-----------|-------|--------|
-| `ValueError` | `skill_id` not in config, or empty `scene_description` | Use `list_available_skills()` for valid IDs; ensure description is non-empty |
+| `ValueError` | Empty `scene_description` | Ensure description is non-empty |
 | `FileNotFoundError` | `ip-reference.png` missing | Upload reference image to `assets/` |
 | `EnvironmentError` | Missing env vars | Set `DOUBAO_API_KEY`, `DOUBAO_ENDPOINT`, `DOUBAO_MODEL` |
 | `RuntimeError` | API call failed | Check API key validity and endpoint URL |
-
----
-
-## Adding New Skill Types
-
-Edit `assets/skill-config.json` only — no code changes needed:
-
-```json
-{
-  "skill_id": "your_new_skill",
-  "name_cn": "中文名称",
-  "name_en": "English Name",
-  "expression": "describe facial expression and emotion only",
-  "outfit": "describe clothing and held props only",
-  "background": "describe scene and environment only",
-  "mood": ["keyword1", "keyword2", "keyword3"]
-}
-```
-
-**Prompt writing rules:**
-- `expression`: emotion state + any face accessories (e.g., glasses)
-- `outfit`: clothing, held items, wearable props — no body description
-- `background`: environment, setting, atmosphere, lighting — no character description
-- `mood`: 2–4 single-word keywords for metadata/tagging use only
 
 ---
 
@@ -296,6 +221,6 @@ skill-card-generator/
 │   └── api-guide.md            # Doubao API reference
 └── assets/
     ├── ip-reference.png        # Brand mascot reference (REQUIRED before use)
-    ├── skill-config.json       # All skill visual definitions
+    ├── skill-config.json       # Skill configurations (empty, reserved)
     └── prompt-template.txt     # Prompt structure template
 ```

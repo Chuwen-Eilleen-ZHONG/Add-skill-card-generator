@@ -14,55 +14,9 @@ Automatically generate branded Skills Hub card images featuring a consistent IP 
 
 ## Three Generation Modes
 
-### Mode 1 — Predefined Skill Cards
+### Mode 1 — Custom Scene (Single Card)
 
-Reads configuration from `assets/skill-config.json`. Includes 12 built-in skill types, each with a preset expression, outfit, and background.
-
-**Terminal**
-```bash
-python -m scripts.generate_card data_analysis
-```
-
-**Agent code**
-```python
-from scripts.generate_card import generate_skill_card
-
-path = generate_skill_card("data_analysis")
-```
-
-**Available skill IDs**
-```bash
-python -m scripts.generate_card          # run with no arguments to list all skill IDs
-```
-
-| skill_id | Name |
-|----------|------|
-| `data_analysis` | Data Analysis |
-| `travel_planning` | Travel Planning |
-| `creative_writing` | Creative Writing |
-| `coding` | Coding |
-| `graphic_design` | Graphic Design |
-| `marketing` | Marketing |
-| `fitness_coaching` | Fitness Coaching |
-| `cooking` | Cooking |
-| `music_production` | Music Production |
-| `language_learning` | Language Learning |
-| `finance_planning` | Finance Planning |
-| `photography` | Photography |
-
-**Example output — `data_analysis`**
-
-| Reference Image | Generated Card |
-|----------------|---------------|
-| <img src="assets/ip-reference.png" width="240" alt="Reference"> | <img src="examples/example_data_analysis.png" width="240" alt="Data Analysis Card"> |
-
-> Prompt: `focused and analytical, wearing smart glasses, wearing a white lab coat, holding a tablet showing graphs...`
-
----
-
-### Mode 2 — Custom Scene (Single Card)
-
-No predefined configuration needed. Describe any scene in natural language — English, Chinese, or mixed. The API generates a card from scratch based on your description.
+Describe any scene in natural language — English, Chinese, or mixed. The API generates a card from scratch based on your description.
 
 **Terminal**
 ```bash
@@ -93,7 +47,7 @@ path = generate_custom_card("buying tickets at a theme park, excited expression"
 
 ---
 
-### Mode 3 — Variations (Multiple Versions of the Same Scene)
+### Mode 2 — Variations (Multiple Versions of the Same Scene)
 
 The same prompt produces a different composition, lighting, and angle on each API call. Use this mode to generate several options and pick the best one.
 
@@ -125,7 +79,7 @@ paths = generate_custom_card_variations(
 
 ---
 
-### Bonus — Batch Generation (Different Scenes)
+### Mode 3 — Batch Generation (Different Scenes)
 
 Generate multiple cards with different scene descriptions in a single call.
 
@@ -155,7 +109,6 @@ python -m scripts.generate_card --custom-batch \
 
 | What you need | Use |
 |---------------|-----|
-| Standard skill card (data analysis, travel planning, etc.) | `generate_skill_card(skill_id)` |
 | One card for a specific custom scene | `generate_custom_card(scene)` |
 | Multiple options of the same scene to choose from | `generate_custom_card_variations(scene, num_variations=N)` |
 | Multiple different scenes, one card each | `generate_custom_cards_batch([scene1, scene2, …])` |
@@ -176,7 +129,7 @@ cp .env.example .env
 ls assets/ip-reference.png
 
 # 4. Generate your first card
-python -m scripts.generate_card data_analysis
+python -m scripts.generate_card --custom "buying tickets at a theme park, excited expression"
 ```
 
 Output is saved to: `output/cards/`
@@ -196,10 +149,9 @@ skill-card-generator/
 │   └── prompt_builder.py   # Prompt assembly logic
 ├── assets/
 │   ├── ip-reference.png    # Mascot reference image (required)
-│   ├── skill-config.json   # 12 predefined skill configurations
+│   ├── skill-config.json   # Skill configurations (custom mode only)
 │   └── prompt-template.txt
 ├── examples/               # Sample generated cards (tracked in git)
-│   ├── example_data_analysis.png
 │   ├── example_custom_theme_park.png
 │   ├── example_custom_library.png
 │   ├── example_variation_v1.png
